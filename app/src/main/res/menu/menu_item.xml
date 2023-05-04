@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/i0"
+        android:icon="@android:drawable/btn_plus"
+        android:title="Переменная" />
+    <item
+        android:id="@+id/i1"
+        android:title="Операция" />
+    <item
+        android:id="@+id/i2"
+        android:title="Вывод" />
+</menu>
