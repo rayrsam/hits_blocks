@@ -10,6 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/txRes"
+            android:layout_width="0dp"
+            android:layout_height="71dp"
+            android:background="#000000"
+            android:backgroundTint="#000000"
+            android:textColor="#FAF9F9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
@@ -30,9 +41,9 @@
             android:background="#9CCD82"
             android:text="Запустить"
             android:textColor="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/txRes"
             app:layout_constraintEnd_toStartOf="@+id/addB2"
-            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -46,4 +57,5 @@
             app:layout_constraintTop_toTopOf="@+id/addB1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

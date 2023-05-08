@@ -1,5 +1,7 @@
 package com.hits.myapplication
 
+import java.util.Collections
+
 typealias BlockListener = (blocks : List<Block>) -> Unit
 
 class BlockList {
@@ -14,7 +16,10 @@ class BlockList {
 
     fun removeBlock(block: Block){
         val index = blocks.indexOfFirst{it.id == block.id}
-        if (index != -1) blocks.removeAt(index)
+        if (index != -1) {
+            blocks = ArrayList(blocks)
+            blocks.removeAt(index)
+        }
         notifyChanges()
     }
 
@@ -23,8 +28,14 @@ class BlockList {
         notifyChanges()
     }
 
-    fun addAfter (block: Block){
-        TODO()
+    fun  moveBLock(block: Block, moveBy : Int){
+        val oldIndex = blocks.indexOfFirst { it.id == block.id }
+        if (oldIndex == -1) return
+        val newIndex = oldIndex + moveBy
+        if (newIndex < 0 || newIndex >= blocks.size) return
+        blocks = ArrayList(blocks)
+        Collections.swap(blocks, oldIndex, newIndex)
+        notifyChanges()
     }
 
     fun addListener(listener: BlockListener){

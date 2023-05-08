@@ -5,64 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
-    android:backgroundTint="#4D8738">
+    android:backgroundTint="#2196F3">
 
     <Button
         android:id="@+id/delB"
         android:layout_width="80dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="4dp"
         android:text="\?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/upB" />
 
     <Button
-        android:id="@+id/downB"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:text="\\/"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delB" />
-
-    <Button
         android:id="@+id/upB"
         android:layout_width="80dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="4dp"
         android:text="/\\"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/left"
-        android:layout_width="61dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#F8F7F7"
-        android:backgroundTint="#F6F6F6"
-        android:ems="10"
-        android:hint="Имя"
-        android:inputType="text"
-        android:textColor="#000000"
+    <Button
+        android:id="@+id/downB"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="4dp"
+        android:text="\\/"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delB" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Вывод: "
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/right"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        android:background="#F8F7F7"
-        android:backgroundTint="#F6F6F6"
+        android:id="@+id/outTx"
+        android:layout_width="61dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:background="#FFFFFF"
         android:ems="10"
-        android:hint="Выражение"
+        android:hint="Имя"
         android:inputType="text"
-        android:textColor="#000000"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/downB"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
