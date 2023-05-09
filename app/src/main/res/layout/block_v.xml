@@ -38,7 +38,6 @@
         android:layout_width="34dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:src="@drawable/eq"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/right"
@@ -50,7 +49,7 @@
         android:id="@+id/left"
         android:layout_width="100dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
         android:layout_marginBottom="43dp"
         android:background="#FFFFFF"
@@ -59,20 +58,44 @@
         android:inputType="text"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/tabs"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/right"
         android:layout_width="80dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="0"
         android:inputType="text"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/left"
-        app:layout_constraintEnd_toStartOf="@+id/delB"
-        app:layout_constraintTop_toTopOf="@+id/left" />
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/left"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tabs"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="14dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/downB" />
 </androidx.constraintlayout.widget.ConstraintLayout>

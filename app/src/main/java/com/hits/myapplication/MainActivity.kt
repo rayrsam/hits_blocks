@@ -1,18 +1,19 @@
 package com.hits.myapplication
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hits.myapplication.databinding.DialogBinding
 import com.hits.myapplication.databinding.MainActivityBinding
 
 
 class MainActivity : ComponentActivity() {
-    var index = 1
-
     private lateinit var binding : MainActivityBinding
     private lateinit var adapter: BlockAdapterBinding
 
@@ -31,8 +32,8 @@ class MainActivity : ComponentActivity() {
         adapter = BlockAdapterBinding(object : BlockActionListener{
 
             override fun onBlockDelete(block : Block){blockList.removeBlock(block)}
-            override fun onBlockDetails(block: Block) {onDetails(block)}
-            override fun onBlockMove(block: Block, moveBy: Int) {blockList.moveBLock(block, moveBy)}
+            override fun onBlockSwap(oldInd : Int, newInd : Int) {blockList.swapBlock(oldInd, newInd)}
+            override fun onBlockTab(block: Block) {blockList.addTabBlock(block)}
         })
 
         val layoutManager = LinearLayoutManager(this)
@@ -40,15 +41,11 @@ class MainActivity : ComponentActivity() {
         binding.recyclerView.adapter = adapter
         blockList.addListener(blockListener)
 
-        val itemTouchDelete = ItemTouchHelper(SwipeToDelete(adapter))
-        itemTouchDelete.attachToRecyclerView(binding.recyclerView)
+        //val itemTouchDelete = ItemTouchHelper(SwipeToDelete(adapter))
+        //itemTouchDelete.attachToRecyclerView(binding.recyclerView)
 
-        val itemTouchUp = ItemTouchHelper(SwipeToUp(adapter))
-        itemTouchUp.attachToRecyclerView(binding.recyclerView)
-
-        val itemTouchDown = ItemTouchHelper(SwipeToDown(adapter))
-        itemTouchDown.attachToRecyclerView(binding.recyclerView)
-
+        val itemTouchSwap = ItemTouchHelper(DragSwap(adapter))
+        itemTouchSwap.attachToRecyclerView(binding.recyclerView)
 
         binding.addB1.setOnClickListener() {start()}
 
@@ -56,29 +53,15 @@ class MainActivity : ComponentActivity() {
 
     }
 
+
+
     fun start(){
+        adapter.notifyDataSetChanged()
         binding.txRes.text = blockList.getBlocks().size.toString()
     }
-    fun onDetails(block: Block){
-        when (block.type){
-            0 -> {
-                val block = block as VarBlock
-                val res = block.left + " = " + block.right
-                binding.txRes.text = res
-            }
-            1 -> {
-                val block = block as OperBlock
-                val res = block.left + " = " + block.right
-                binding.txRes.text = res
-            }
-            2 ->{
-                val block = block as OutBlock
-                val res = block.left
-                binding.txRes.text = res
-            }
-        }
 
-    }
+
+    private var index = 0
 
     fun addVB(){
         val newBlock = VarBlock(index)
@@ -119,8 +102,6 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         blockList.removeListener(blockListener)
     }
-
-
 
 }
 

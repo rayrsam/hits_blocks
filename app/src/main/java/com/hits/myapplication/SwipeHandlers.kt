@@ -3,56 +3,41 @@ package com.hits.myapplication
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeToDelete(
+
+class DragSwap(
     val adapter : BlockAdapterBinding
-) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+) : ItemTouchHelper.Callback(){
+
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        val swapFlag = ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+        return makeMovementFlags(dragFlag, swapFlag)
+    }
 
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        TODO("Not yet implemented") // :)
+        adapter.actionListener.onBlockSwap(viewHolder.absoluteAdapterPosition, target.absoluteAdapterPosition)
+        return true
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
-        adapter.actionListener.onBlockDelete(block)
-    }
-}
-
-class SwipeToUp(
-    val adapter : BlockAdapterBinding
-) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
-
-    override fun onMove(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean {
-        TODO("Not yet implemented") // :)
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
-        adapter.actionListener.onBlockMove(block, -1)
-    }
-}
-
-class SwipeToDown(
-    val adapter : BlockAdapterBinding
-) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.DOWN){
-
-    override fun onMove(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean {
-        TODO("Not yet implemented") // :)
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
-        adapter.actionListener.onBlockMove(block, 1)
+        when (direction) {
+            ItemTouchHelper.LEFT -> {
+                val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
+                adapter.actionListener.onBlockDelete(block)
+                adapter.notifyDataSetChanged()
+            }
+            ItemTouchHelper.RIGHT -> {
+                val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
+                adapter.actionListener.onBlockTab(block)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 }

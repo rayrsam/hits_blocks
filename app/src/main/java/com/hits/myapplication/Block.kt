@@ -2,7 +2,8 @@ package com.hits.myapplication
 
 open class Block (
     val id : Int,
-    val type : Int = -1
+    val type : Int = -1,
+    var tabs : Int = 0
 )
 
 class VarBlock (
@@ -26,9 +27,7 @@ class OperBlock(
 class OutBlock(
     id : Int,
     type : Int = 2,
-    var left : String? = null
+    var out : String? = null
 ) : Block(id, type = 2){
 
 }
-
-
