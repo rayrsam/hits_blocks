@@ -6,10 +6,11 @@ import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.ComponentActivity
-import androidx.compose.material3.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hits.myapplication.databinding.DialogBinding
+import com.hits.myapplication.databinding.BlockOBinding
+import com.hits.myapplication.databinding.BlockOutBinding
+import com.hits.myapplication.databinding.BlockVBinding
 import com.hits.myapplication.databinding.MainActivityBinding
 
 
@@ -34,15 +35,19 @@ class MainActivity : ComponentActivity() {
             override fun onBlockDelete(block : Block){blockList.removeBlock(block)}
             override fun onBlockSwap(oldInd : Int, newInd : Int) {blockList.swapBlock(oldInd, newInd)}
             override fun onBlockTab(block: Block) {blockList.addTabBlock(block)}
+            override fun onBlockEdit(block: Block) {
+                when (block.type) {
+                    0 -> showVarBlockDialog(block as VarBlock)
+                    1 -> showOperBlockDialog(block as OperBlock)
+                    2 -> showOutBlockDialog(block as OutBlock)
+                }
+            }
         })
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
         blockList.addListener(blockListener)
-
-        //val itemTouchDelete = ItemTouchHelper(SwipeToDelete(adapter))
-        //itemTouchDelete.attachToRecyclerView(binding.recyclerView)
 
         val itemTouchSwap = ItemTouchHelper(DragSwap(adapter))
         itemTouchSwap.attachToRecyclerView(binding.recyclerView)
@@ -65,16 +70,19 @@ class MainActivity : ComponentActivity() {
 
     fun addVB(){
         val newBlock = VarBlock(index)
+        showVarBlockDialog(newBlock)
         blockList.addBlock(newBlock)
         index++
     }
     fun addOB(){
         val newBlock = OperBlock(index)
+        showOperBlockDialog(newBlock)
         blockList.addBlock(newBlock)
         index++
     }
     fun addOutB(){
         val newBlock = OutBlock(index)
+        showOutBlockDialog(newBlock)
         blockList.addBlock(newBlock)
         index++
     }
@@ -101,6 +109,64 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         blockList.removeListener(blockListener)
+    }
+
+    fun showOperBlockDialog(block: OperBlock){
+        val dialogBinding = BlockOBinding.inflate(layoutInflater)
+
+        dialogBinding.left.setText(block.left)
+        dialogBinding.right.setText(block.right)
+
+        val dialog = AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle("")
+            .setView(dialogBinding.root)
+            .setPositiveButton("OK"){ _, _ ->
+                block.left = dialogBinding.left.text.toString()
+                block.right = dialogBinding.right.text.toString()
+                adapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Отмена"){_, _ -> {}}
+            .create()
+        dialog.show()
+    }
+
+    fun showVarBlockDialog(block: VarBlock){
+        val dialogBinding = BlockVBinding.inflate(layoutInflater)
+
+        dialogBinding.left.setText(block.left)
+        dialogBinding.right.setText(block.right)
+
+        val dialog = AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle("")
+            .setView(dialogBinding.root)
+            .setPositiveButton("OK"){ _, _ ->
+                block.left = dialogBinding.left.text.toString()
+                block.right = dialogBinding.right.text.toString()
+                adapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Отмена"){_, _ -> {}}
+            .create()
+        dialog.show()
+    }
+
+    fun showOutBlockDialog(block: OutBlock) {
+        val dialogBinding = BlockOutBinding.inflate(layoutInflater)
+
+        dialogBinding.out.setText(block.out)
+
+        val dialog = AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle("")
+            .setView(dialogBinding.root)
+            .setPositiveButton("OK"){ _, _ ->
+                block.out = dialogBinding.out.text.toString()
+                adapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Отмена"){_, _ -> {}}
+            .create()
+        dialog.show()
     }
 
 }

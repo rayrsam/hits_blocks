@@ -8,8 +8,6 @@ class BlockList {
     private var blocks = mutableListOf<Block>()
     private var listeners = mutableListOf<BlockListener>()
 
-    init {}
-
     fun getBlocks() : List<Block>{
         return blocks
     }

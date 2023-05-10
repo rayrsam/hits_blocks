@@ -8,6 +8,7 @@ class DragSwap(
     val adapter : BlockAdapterBinding
 ) : ItemTouchHelper.Callback(){
 
+
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -27,16 +28,19 @@ class DragSwap(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val Ind = viewHolder.absoluteAdapterPosition
+        val block = adapter.blocks[Ind]
+
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
+
                 adapter.actionListener.onBlockDelete(block)
-                adapter.notifyDataSetChanged()
+                //adapter.notifyDataSetChanged()
+                adapter.notifyItemChanged(Ind)
             }
             ItemTouchHelper.RIGHT -> {
-                val block = adapter.blocks[viewHolder.absoluteAdapterPosition]
                 adapter.actionListener.onBlockTab(block)
-                adapter.notifyDataSetChanged()
+                adapter.notifyItemChanged(Ind)
             }
         }
     }

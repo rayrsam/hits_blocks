@@ -2,69 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
-    android:backgroundTint="#4D8738">
-
-    <Button
-        android:id="@+id/delB"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:text="\?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upB" />
+    android:background="@drawable/round"
+    android:backgroundTint="@color/OperColor">
 
     <Button
         android:id="@+id/downB"
-        android:layout_width="80dp"
+        android:layout_width="40dp"
         android:layout_height="35dp"
         android:text="\\/"
+        app:layout_constraintBottom_toBottomOf="@+id/left"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delB" />
-
-    <Button
-        android:id="@+id/upB"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:text="/\\"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/left" />
 
     <EditText
         android:id="@+id/left"
-        android:layout_width="61dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:background="#F8F7F7"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="#F6F6F6"
         android:ems="10"
         android:hint="Имя"
         android:inputType="text"
-        android:textColor="#000000"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/right"
-        app:layout_constraintStart_toEndOf="@+id/tabs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tabs"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/right"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="180dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#F8F7F7"
-        android:backgroundTint="#F6F6F6"
+        android:backgroundTint="@color/white"
         android:ems="10"
         android:hint="Выражение"
         android:inputType="text"
-        android:textColor="#000000"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/left"
         app:layout_constraintEnd_toStartOf="@+id/downB"
-        app:layout_constraintStart_toStartOf="@+id/left" />
+        app:layout_constraintTop_toTopOf="@+id/left" />
 
     <TextView
         android:id="@+id/tabs"
@@ -74,16 +57,19 @@
         android:backgroundTint="@color/white"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txid"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="82dp"
-        android:layout_marginTop="27dp"
-        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="="
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/right"
         app:layout_constraintStart_toEndOf="@+id/left"
         app:layout_constraintTop_toTopOf="parent" />
 

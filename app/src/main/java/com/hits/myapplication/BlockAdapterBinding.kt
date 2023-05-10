@@ -14,6 +14,7 @@ interface BlockActionListener {
     fun onBlockDelete(block: Block)
     fun onBlockSwap(oldInd: Int, newInd: Int)
     fun onBlockTab(block: Block)
+    fun onBlockEdit(block: Block)
 }
 
 class blockDiffCallback(
@@ -54,25 +55,27 @@ class BlockAdapterBinding(
         val inflater = LayoutInflater.from(parent.context)
 
         when (viewType) {
-            0 -> {
+            0 -> { //Variable
                 val binding = BlockVBinding.inflate(inflater, parent, false)
-                binding.left.setOnClickListener(this)
-                binding.right.setOnClickListener(this)
+                //binding.left.setOnClickListener(this)
+                //binding.right.setOnClickListener(this)
                 //binding.downB.setOnClickListener(this)
+                binding.downB.setOnClickListener(this)
                 return BlockVHolder(binding);
             }
 
-            1 -> {
+            1 -> { //Operation
                 val binding = BlockOBinding.inflate(inflater, parent, false)
-                binding.left.setOnClickListener(this)
-                binding.right.setOnClickListener(this)
-                //binding.downB.setOnClickListener(this)
+                //binding.left.setOnClickListener(this)
+                //binding.right.setOnClickListener(this)
+                binding.downB.setOnClickListener(this)
                 return BlockOHolder(binding);
             }
 
-            else -> {
+            else -> { //Output
                 val binding = BlockOutBinding.inflate(inflater, parent, false)
-                    binding.out.setOnClickListener(this)
+                    //binding.out.setOnClickListener(this)
+                binding.downB.setOnClickListener(this)
                 return BlockOutHolder(binding);
             }
         }
@@ -87,41 +90,42 @@ class BlockAdapterBinding(
         }
 
         when (block.type) {
-            0 -> {
+            0 -> { //Variable
                 val block = block as VarBlock
                 with((holder as BlockVHolder).binding) {
-                    txid.text = position.toString() + " " + block.id.toString()
-                    tabs.text = newTabs
+                    left.setEnabled(false);
+                    right.setEnabled(false);
 
-                    left.tag = block
-                    right.tag = block
+                    downB.tag = block
 
+                    tabs.setText(newTabs)
                     left.setText(block.left)
                     right.setText(block.right)
                 }
             }
 
-            1 -> {
+            1 -> { //Operation
                 val block = block as OperBlock
                 with((holder as BlockOHolder).binding) {
-                    txid.text = position.toString() + " " + block.id.toString()
-                    tabs.text = newTabs
+                    left.setEnabled(false);
+                    right.setEnabled(false);
 
-                    left.tag = block
-                    right.tag = block
+                    downB.tag = block
 
+                    tabs.setText(newTabs)
                     left.setText(block.left)
                     right.setText(block.right)
                 }
             }
 
-            else -> {
+            else -> { //Output
                 val block = block as OutBlock
                 with((holder as BlockOutHolder).binding) {
-                    txid.text = position.toString() + " " + block.id.toString()
-                    tabs.text = newTabs
+                    out.setEnabled(false);
 
-                    out.tag = block
+                    downB.tag = block
+
+                    tabs.setText(newTabs)
                     out.setText(block.out)
                 }
             }
@@ -137,6 +141,10 @@ class BlockAdapterBinding(
     override fun getItemCount(): Int = blocks.size
 
     override fun onClick(v: View) {
+        val block = v.tag as Block
+
+        actionListener.onBlockEdit(block)
+        notifyDataSetChanged()
     }
 
 
