@@ -12,6 +12,7 @@ import com.hits.myapplication.databinding.BlockOBinding
 import com.hits.myapplication.databinding.BlockOutBinding
 import com.hits.myapplication.databinding.BlockVBinding
 import com.hits.myapplication.databinding.MainActivityBinding
+import com.hits.myapplication.interpretercommands.Interpreter
 
 
 class MainActivity : ComponentActivity() {
@@ -62,7 +63,10 @@ class MainActivity : ComponentActivity() {
 
     fun start(){
         adapter.notifyDataSetChanged()
-        binding.txRes.text = blockList.getBlocks().size.toString()
+        Interpreter.blockList = blockList.getBlocks()
+        var output = ""
+        for(str in Interpreter.executeCode()) output += str + "\n"
+        binding.txRes.text = output
     }
 
 
