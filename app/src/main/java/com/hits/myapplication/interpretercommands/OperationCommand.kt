@@ -105,7 +105,7 @@ class OperationCommand(val name: String, val expression: String) : BlockCommand 
                 stack.push(simpleOperation(left, right, token))
             }
         }
-        return parseExpression(expression).toString() + "\n" + shuntingYard(parseExpression(expression)).toString() + "\n" + stack.pop()
-        //return stack.pop()
+        //return parseExpression(expression).toString() + "\n" + shuntingYard(parseExpression(expression)).toString() + "\n" + stack.pop()
+        return stack.pop()
     }
 }
