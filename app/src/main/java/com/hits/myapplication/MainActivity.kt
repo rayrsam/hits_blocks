@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hits.myapplication.databinding.BlockIfBinding
 import com.hits.myapplication.databinding.BlockOBinding
 import com.hits.myapplication.databinding.BlockOutBinding
 import com.hits.myapplication.databinding.BlockVBinding
@@ -16,13 +17,13 @@ import com.hits.myapplication.interpretercommands.Interpreter
 
 
 class MainActivity : ComponentActivity() {
-    private lateinit var binding : MainActivityBinding
+    private lateinit var binding: MainActivityBinding
     private lateinit var adapter: BlockAdapterBinding
 
-    private val blockList:BlockList
+    private val blockList: BlockList
         get() = (applicationContext as App).blockList
 
-    private val blockListener : BlockListener = {
+    private val blockListener: BlockListener = {
         adapter.blocks = it.toMutableList()
     }
 
@@ -31,16 +32,26 @@ class MainActivity : ComponentActivity() {
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = BlockAdapterBinding(object : BlockActionListener{
+        adapter = BlockAdapterBinding(object : BlockActionListener {
 
-            override fun onBlockDelete(block : Block){blockList.removeBlock(block)}
-            override fun onBlockSwap(oldInd : Int, newInd : Int) {blockList.swapBlock(oldInd, newInd)}
-            override fun onBlockTab(block: Block) {blockList.addTabBlock(block)}
+            override fun onBlockDelete(block: Block) {
+                blockList.removeBlock(block)
+            }
+
+            override fun onBlockSwap(oldInd: Int, newInd: Int) {
+                blockList.swapBlock(oldInd, newInd)
+            }
+
+            override fun onBlockTab(block: Block) {
+                blockList.addTabBlock(block)
+            }
+
             override fun onBlockEdit(block: Block) {
                 when (block.type) {
                     0 -> showVarBlockDialog(block as VarBlock)
                     1 -> showOperBlockDialog(block as OperBlock)
                     2 -> showOutBlockDialog(block as OutBlock)
+                    3 -> showIfBlockDialog(block as IfBlock)
                 }
             }
         })
@@ -53,41 +64,59 @@ class MainActivity : ComponentActivity() {
         val itemTouchSwap = ItemTouchHelper(DragSwap(adapter))
         itemTouchSwap.attachToRecyclerView(binding.recyclerView)
 
-        binding.addB1.setOnClickListener() {start()}
+        binding.addB1.setOnClickListener() { start() }
 
         registerForContextMenu(binding.addB2)
 
     }
 
 
-
-    fun start(){
+    fun start() {
         adapter.notifyDataSetChanged()
         Interpreter.blockList = blockList.getBlocks()
         var output = ""
-        for(str in Interpreter.executeCode()) output += str + "\n"
+        for (str in Interpreter.executeCode()) output += str + "\n"
         binding.txRes.text = output
     }
 
-
     private var index = 0
 
-    fun addVB(){
-        val newBlock = VarBlock(index)
-        showVarBlockDialog(newBlock)
-        blockList.addBlock(newBlock)
-        index++
-    }
-    fun addOB(){
-        val newBlock = OperBlock(index)
-        showOperBlockDialog(newBlock)
-        blockList.addBlock(newBlock)
-        index++
-    }
-    fun addOutB(){
-        val newBlock = OutBlock(index)
-        showOutBlockDialog(newBlock)
-        blockList.addBlock(newBlock)
+    fun addBLock(type: Int) {
+        var tabs = 0;
+
+        if (index != 0) {
+            val prev = blockList.getBlocks()[index - 1]
+            tabs = prev.tabs
+            if (prev.type == 3) {
+                tabs++
+            }
+        }
+
+        when (type) {
+            0 -> {
+                val newBlock = VarBlock(index, tabs, type)
+                showVarBlockDialog(newBlock)
+                blockList.addBlock(newBlock)
+            }
+
+            1 -> {
+                val newBlock = OperBlock(index, tabs, type)
+                showOperBlockDialog(newBlock)
+                blockList.addBlock(newBlock)
+            }
+
+            2 -> {
+                val newBlock = OutBlock(index, tabs, type)
+                showOutBlockDialog(newBlock)
+                blockList.addBlock(newBlock)
+            }
+
+            else -> {
+                val newBlock = IfBlock(index, tabs, type)
+                showIfBlockDialog(newBlock)
+                blockList.addBlock(newBlock)
+            }
+        }
         index++
     }
 
@@ -103,9 +132,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.i0 -> addVB()
-            R.id.i1 -> addOB()
-            R.id.i2 -> addOutB()
+            R.id.i0 -> addBLock(0)
+            R.id.i1 -> addBLock(1)
+            R.id.i2 -> addBLock(2)
+            R.id.i3 -> addBLock(3)
         }
         return super.onContextItemSelected(item)
     }
@@ -115,7 +145,7 @@ class MainActivity : ComponentActivity() {
         blockList.removeListener(blockListener)
     }
 
-    fun showOperBlockDialog(block: OperBlock){
+    fun showOperBlockDialog(block: OperBlock) {
         val dialogBinding = BlockOBinding.inflate(layoutInflater)
 
         dialogBinding.left.setText(block.left)
@@ -125,17 +155,17 @@ class MainActivity : ComponentActivity() {
             .setCancelable(true)
             .setTitle("")
             .setView(dialogBinding.root)
-            .setPositiveButton("OK"){ _, _ ->
+            .setPositiveButton("OK") { _, _ ->
                 block.left = dialogBinding.left.text.toString()
                 block.right = dialogBinding.right.text.toString()
                 adapter.notifyDataSetChanged()
             }
-            .setNegativeButton("Отмена"){_, _ -> {}}
+            .setNegativeButton("Отмена") { _, _ -> {} }
             .create()
         dialog.show()
     }
 
-    fun showVarBlockDialog(block: VarBlock){
+    fun showVarBlockDialog(block: VarBlock) {
         val dialogBinding = BlockVBinding.inflate(layoutInflater)
 
         dialogBinding.left.setText(block.left)
@@ -145,12 +175,12 @@ class MainActivity : ComponentActivity() {
             .setCancelable(true)
             .setTitle("")
             .setView(dialogBinding.root)
-            .setPositiveButton("OK"){ _, _ ->
+            .setPositiveButton("OK") { _, _ ->
                 block.left = dialogBinding.left.text.toString()
                 block.right = dialogBinding.right.text.toString()
                 adapter.notifyDataSetChanged()
             }
-            .setNegativeButton("Отмена"){_, _ -> {}}
+            .setNegativeButton("Отмена") { _, _ -> {} }
             .create()
         dialog.show()
     }
@@ -164,11 +194,29 @@ class MainActivity : ComponentActivity() {
             .setCancelable(true)
             .setTitle("")
             .setView(dialogBinding.root)
-            .setPositiveButton("OK"){ _, _ ->
+            .setPositiveButton("OK") { _, _ ->
                 block.out = dialogBinding.out.text.toString()
                 adapter.notifyDataSetChanged()
             }
-            .setNegativeButton("Отмена"){_, _ -> {}}
+            .setNegativeButton("Отмена") { _, _ -> {} }
+            .create()
+        dialog.show()
+    }
+
+    fun showIfBlockDialog(block: IfBlock) {
+        val dialogBinding = BlockIfBinding.inflate(layoutInflater)
+
+        dialogBinding.cond.setText(block.cond)
+
+        val dialog = AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle("")
+            .setView(dialogBinding.root)
+            .setPositiveButton("OK") { _, _ ->
+                block.cond = dialogBinding.cond.text.toString()
+                adapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Отмена") { _, _ -> {} }
             .create()
         dialog.show()
     }

@@ -9,6 +9,9 @@
         android:id="@+id/i1"
         android:title="Операция" />
     <item
+        android:id="@+id/i3"
+        android:title="Условие" />
+    <item
         android:id="@+id/i2"
         android:title="Вывод" />
 </menu>

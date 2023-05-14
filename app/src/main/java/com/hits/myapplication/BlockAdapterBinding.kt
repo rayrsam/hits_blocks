@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.hits.myapplication.databinding.BlockIfBinding
 import com.hits.myapplication.databinding.BlockOBinding
 import com.hits.myapplication.databinding.BlockOutBinding
 import com.hits.myapplication.databinding.BlockVBinding
-
 
 interface BlockActionListener {
     fun onBlockDelete(block: Block)
@@ -50,33 +50,32 @@ class BlockAdapterBinding(
             diffResult.dispatchUpdatesTo(this)
         }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
         when (viewType) {
             0 -> { //Variable
                 val binding = BlockVBinding.inflate(inflater, parent, false)
-                //binding.left.setOnClickListener(this)
-                //binding.right.setOnClickListener(this)
-                //binding.downB.setOnClickListener(this)
                 binding.downB.setOnClickListener(this)
                 return BlockVHolder(binding);
             }
 
             1 -> { //Operation
                 val binding = BlockOBinding.inflate(inflater, parent, false)
-                //binding.left.setOnClickListener(this)
-                //binding.right.setOnClickListener(this)
                 binding.downB.setOnClickListener(this)
                 return BlockOHolder(binding);
             }
 
-            else -> { //Output
+            2 -> { //Output
                 val binding = BlockOutBinding.inflate(inflater, parent, false)
-                    //binding.out.setOnClickListener(this)
                 binding.downB.setOnClickListener(this)
                 return BlockOutHolder(binding);
+            }
+
+            else -> { //if
+                val binding = BlockIfBinding.inflate(inflater, parent, false)
+                binding.downB.setOnClickListener(this)
+                return BlockIfHolder(binding);
             }
         }
     }
@@ -85,8 +84,8 @@ class BlockAdapterBinding(
         val block = blocks[position]
 
         var newTabs = "";
-        for (i in 0 until block.tabs){
-            newTabs += "00"
+        for (i in 0 until block.tabs) {
+            newTabs += " ● "
         }
 
         when (block.type) {
@@ -118,7 +117,7 @@ class BlockAdapterBinding(
                 }
             }
 
-            else -> { //Output
+            2 -> { //Output
                 val block = block as OutBlock
                 with((holder as BlockOutHolder).binding) {
                     out.setEnabled(false);
@@ -129,14 +128,24 @@ class BlockAdapterBinding(
                     out.setText(block.out)
                 }
             }
-        }
 
+            else -> { //if
+                val block = block as IfBlock
+                with((holder as BlockIfHolder).binding) {
+                    cond.setEnabled(false);
+
+                    downB.tag = block
+
+                    tabs.setText(newTabs)
+                    cond.setText(block.cond)
+                }
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
         return blocks[position].type
     }
-
 
     override fun getItemCount(): Int = blocks.size
 
@@ -144,7 +153,6 @@ class BlockAdapterBinding(
         val block = v.tag as Block
 
         actionListener.onBlockEdit(block)
-        notifyDataSetChanged()
     }
 
 

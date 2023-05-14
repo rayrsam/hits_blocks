@@ -2,18 +2,18 @@ package com.hits.myapplication
 
 import java.util.Collections
 
-typealias BlockListener = (blocks : List<Block>) -> Unit
+typealias BlockListener = (blocks: List<Block>) -> Unit
 
 class BlockList {
     private var blocks = mutableListOf<Block>()
     private var listeners = mutableListOf<BlockListener>()
 
-    fun getBlocks() : List<Block>{
+    fun getBlocks(): List<Block> {
         return blocks
     }
 
-    fun removeBlock(block: Block){
-        val index = blocks.indexOfFirst{it.id == block.id}
+    fun removeBlock(block: Block) {
+        val index = blocks.indexOfFirst { it.id == block.id }
         if (index != -1) {
             if (blocks[index].tabs > 0) blocks[index].tabs--
             else {
@@ -23,18 +23,19 @@ class BlockList {
         }
         notifyChanges()
     }
-    fun addTabBlock(block: Block){
-        val index = blocks.indexOfFirst{it.id == block.id}
+
+    fun addTabBlock(block: Block) {
+        val index = blocks.indexOfFirst { it.id == block.id }
         if (index != -1) blocks[index].tabs++
         notifyChanges()
     }
 
-    fun addBlock(block: Block){
+    fun addBlock(block: Block) {
         blocks.add(block)
         notifyChanges()
     }
 
-    fun  moveBLock(block: Block, moveBy : Int){
+    fun moveBLock(block: Block, moveBy: Int) {
         val oldIndex = blocks.indexOfFirst { it.id == block.id }
         if (oldIndex == -1) return
         val newIndex = oldIndex + moveBy
@@ -44,23 +45,22 @@ class BlockList {
         notifyChanges()
     }
 
-    fun swapBlock(oldInd : Int, newInd : Int){
+    fun swapBlock(oldInd: Int, newInd: Int) {
         blocks = ArrayList(blocks)
         Collections.swap(blocks, oldInd, newInd)
         notifyChanges()
     }
 
-    fun addListener(listener: BlockListener){
+    fun addListener(listener: BlockListener) {
         listeners.add(listener)
         notifyChanges()
     }
-    fun removeListener(listener: BlockListener){
+
+    fun removeListener(listener: BlockListener) {
         listeners.remove(listener)
     }
 
-    private fun notifyChanges(){
-        listeners.forEach {it.invoke(blocks)}
+    private fun notifyChanges() {
+        listeners.forEach { it.invoke(blocks) }
     }
-
-
 }

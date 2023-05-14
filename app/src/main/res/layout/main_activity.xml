@@ -13,7 +13,7 @@
         <TextView
             android:id="@+id/txRes"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@color/black"
             android:backgroundTint="@color/black"
             android:textColor="@color/white"
