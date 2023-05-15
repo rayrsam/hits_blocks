@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hits.myapplication.databinding.BlockIfBinding
+import com.hits.myapplication.databinding.BlockListBinding
 import com.hits.myapplication.databinding.BlockOBinding
 import com.hits.myapplication.databinding.BlockOutBinding
 import com.hits.myapplication.databinding.BlockVBinding
+import com.hits.myapplication.databinding.BlockWhileBinding
 
 interface BlockActionListener {
     fun onBlockDelete(block: Block)
@@ -40,7 +42,8 @@ class blockDiffCallback(
 
 class BlockAdapterBinding(
     val actionListener: BlockActionListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener,
+    View.OnLongClickListener {
 
     var blocks = mutableListOf<Block>()
         set(newBlocks) {
@@ -55,27 +58,39 @@ class BlockAdapterBinding(
 
         when (viewType) {
             0 -> { //Variable
-                val binding = BlockVBinding.inflate(inflater, parent, false)
+                val binding = BlockListBinding.inflate(inflater, parent, false)
                 binding.downB.setOnClickListener(this)
-                return BlockVHolder(binding);
+                binding.root.setOnLongClickListener(this)
+                return BlockListHolder(binding);
             }
 
             1 -> { //Operation
                 val binding = BlockOBinding.inflate(inflater, parent, false)
                 binding.downB.setOnClickListener(this)
+                binding.root.setOnLongClickListener(this)
                 return BlockOHolder(binding);
             }
 
             2 -> { //Output
                 val binding = BlockOutBinding.inflate(inflater, parent, false)
                 binding.downB.setOnClickListener(this)
+                binding.CL.setOnLongClickListener(this)
+                binding.out.setOnLongClickListener(this)
                 return BlockOutHolder(binding);
             }
 
-            else -> { //if
+            3 -> { //if
                 val binding = BlockIfBinding.inflate(inflater, parent, false)
+                binding.root.setOnLongClickListener(this)
                 binding.downB.setOnClickListener(this)
                 return BlockIfHolder(binding);
+            }
+
+            else -> { //while
+                val binding = BlockWhileBinding.inflate(inflater, parent, false)
+                binding.root.setOnLongClickListener(this)
+                binding.downB.setOnClickListener(this)
+                return BlockWhileHolder(binding);
             }
         }
     }
@@ -89,17 +104,21 @@ class BlockAdapterBinding(
         }
 
         when (block.type) {
-            0 -> { //Variable
-                val block = block as VarBlock
-                with((holder as BlockVHolder).binding) {
-                    left.setEnabled(false);
-                    right.setEnabled(false);
+            0 -> { //List
+                val block = block as ListBlock
+                with((holder as BlockListHolder).binding) {
+                    name.setEnabled(false);
+                    size.setEnabled(false);
+                    list.setEnabled(false);
 
                     downB.tag = block
+                    root.tag = block
 
                     tabs.setText(newTabs)
-                    left.setText(block.left)
-                    right.setText(block.right)
+                    name.setText(block.name)
+                    size.setText(block.size)
+                    list.setText(block.list)
+
                 }
             }
 
@@ -110,6 +129,7 @@ class BlockAdapterBinding(
                     right.setEnabled(false);
 
                     downB.tag = block
+                    root.tag = block
 
                     tabs.setText(newTabs)
                     left.setText(block.left)
@@ -123,18 +143,34 @@ class BlockAdapterBinding(
                     out.setEnabled(false);
 
                     downB.tag = block
+                    CL.tag = block
+                    out.tag = block
 
                     tabs.setText(newTabs)
                     out.setText(block.out)
                 }
             }
 
-            else -> { //if
+            3 -> { //if
                 val block = block as IfBlock
                 with((holder as BlockIfHolder).binding) {
                     cond.setEnabled(false);
 
                     downB.tag = block
+                    root.tag = block
+
+                    tabs.setText(newTabs)
+                    cond.setText(block.cond)
+                }
+            }
+
+            else -> { //Whi;e
+                val block = block as WhileBlock
+                with((holder as BlockWhileHolder).binding) {
+                    cond.setEnabled(false);
+
+                    downB.tag = block
+                    root.tag = block
 
                     tabs.setText(newTabs)
                     cond.setText(block.cond)
@@ -153,6 +189,13 @@ class BlockAdapterBinding(
         val block = v.tag as Block
 
         actionListener.onBlockEdit(block)
+    }
+
+    override fun onLongClick(v: View): Boolean {
+        val block = v.tag as Block
+
+        actionListener.onBlockEdit(block)
+        return false
     }
 
 

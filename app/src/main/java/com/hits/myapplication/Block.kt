@@ -6,12 +6,13 @@ open class Block(
     val type: Int = -1
 )
 
-class VarBlock(
+class ListBlock(
     id: Int,
     tabs: Int,
     type: Int = 0,
-    var left: String? = null,
-    var right: String? = null
+    var name: String? = null,
+    var size: String? = null,
+    var list: String? = null
 ) : Block(id, tabs, type = 0) {}
 
 class OperBlock(
@@ -35,3 +36,10 @@ class IfBlock(
     type: Int = 3,
     var cond: String? = null
 ) : Block(id, tabs, type = 3) {}
+
+class WhileBlock(
+    id: Int,
+    tabs: Int,
+    type: Int = 4,
+    var cond: String? = null
+) : Block(id, tabs, type = 4) {}

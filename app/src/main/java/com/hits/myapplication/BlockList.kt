@@ -32,6 +32,7 @@ class BlockList {
 
     fun addBlock(block: Block) {
         blocks.add(block)
+        blocks = ArrayList(blocks)
         notifyChanges()
     }
 

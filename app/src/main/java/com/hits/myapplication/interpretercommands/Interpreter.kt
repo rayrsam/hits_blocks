@@ -3,7 +3,7 @@ package com.hits.myapplication.interpretercommands
 import com.hits.myapplication.Block
 import com.hits.myapplication.OperBlock
 import com.hits.myapplication.OutBlock
-import com.hits.myapplication.VarBlock
+//import com.hits.myapplication.VarBlock
 
 object Interpreter {
 
@@ -16,7 +16,7 @@ object Interpreter {
         output = mutableListOf()
         varMap = hashMapOf()
         blockList.forEach{
-            if(it is VarBlock) queue.add(AssignCommand.buildBlockCommand(it))
+            //if(it is VarBlock) queue.add(AssignCommand.buildBlockCommand(it))
             if(it is OperBlock) queue.add(OperationCommand.buildBlockCommand(it))
             if(it is OutBlock) queue.add(OutputCommand.buildBlockCommand(it))
         }
