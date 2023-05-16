@@ -1,7 +1,14 @@
 package com.hits.myapplication.interpretercommands
 
-class IfCommand: ConditionCommand(condition = "") {
+import com.hits.myapplication.Block
+import com.hits.myapplication.IfBlock
+
+class IfCommand(condition: String): ConditionCommand(condition) {
+    companion object Factory : BlockCommandFactory() {
+        override fun buildBlockCommand(block: Block) = IfCommand((block as IfBlock).cond.toString())
+    }
+
     override fun runCommand() {
-        TODO("Not yet implemented")
+        if(calculate(condition) == "true") queue.forEach{it.runCommand()}
     }
 }

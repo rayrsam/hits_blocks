@@ -1,6 +1,6 @@
 package com.hits.myapplication.interpretercommands
 
-class ForCommand(condition: String): ConditionCommand(condition) {
+class ListBlock: BlockCommand {
     override fun runCommand() {
         TODO("Not yet implemented")
     }
