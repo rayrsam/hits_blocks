@@ -36,7 +36,7 @@ interface BlockCommand {
                     (left.toInt() + right.toInt()).toString()
                 }
                 else if(Interpreter.getType(left) == "str" && Interpreter.getType(right) == "str") {
-                    left + right
+                    '"' + left.trim('"') + right.trim('"') + '"'
                 }
                 else null
             }
@@ -57,7 +57,7 @@ interface BlockCommand {
                     (left.toInt() * right.toInt()).toString()
                 }
                 else if(Interpreter.getType(left) == "str" && Interpreter.getType(right) == "int") {
-                    left.repeat(right.toInt())
+                    '"' + left.trim('"').repeat(right.toInt()) + '"'
                 }
                 else if(Interpreter.getType(left) == "bool" && Interpreter.getType(right) == "bool") {
                     (left == "true" && right == "true").toString()
@@ -94,29 +94,17 @@ interface BlockCommand {
     }
 
     private fun parseExpression(expression: String): List<String> {
-        var charList = expression.toCharArray().map { it.toString() }.toMutableList()
-        var strFlag = false
-        var tempStr = ""
-        for (i in charList.indices) {
-            if(charList[i] == "\"") {
-                //charList[i] = tempStr
-                //tempStr = ""
-                strFlag = !strFlag
+        val pattern = """(\".*?\")|([\d]+(?:\.\d+)?)|([+\-*\/^~%]|[<>]=?|==|!=)|([\w\[\]]+)""".toRegex()
+        val result = pattern.findAll(expression).map { it.value }.toMutableList()
+        for(i in result.indices) {
+            if(Interpreter.getList(result[i]) != null) {
+                val list = Interpreter.getList(result[i])
+                result[i] = (list!![0] as MutableList<String>)[(list[2] as String).toInt()]
             }
-            if(strFlag) {
-                //tempStr += charList[i]
-                //charList[i] = ""
-                continue
-            }
-            if (charList[i] == "-" && (charList[i + 1][0].isLetterOrDigit() || charList[i + 1] == "(")) {
-                charList[i] = "~ "
-            } else if (charList[i] == "(") {
-                charList[i] += " "
-            } else if (charList[i] == ")") {
-                charList[i] = " " + charList[i]
-            }
+            if(Interpreter.getVar(result[i]) != null) result[i] = Interpreter.getVar(result[i]).toString()
+            else if(result[i] == "-" && (i == 0 || !result[i - 1].last().isLetterOrDigit())) result[i] = "~"
         }
-        return charList.joinToString("").split(" (?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*\$)".toRegex()).map { if (Interpreter.getVar(it) != null) Interpreter.getVar(it) else it.removeSurrounding("\"") }.toMutableList() as MutableList<String>
+        return result
     }
 
     private fun shuntingYard(parsedExpression: List<String>) : List<String> {

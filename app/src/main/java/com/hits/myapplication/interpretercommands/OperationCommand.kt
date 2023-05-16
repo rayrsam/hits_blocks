@@ -11,6 +11,11 @@ class OperationCommand(val name: String, val expression: String) : BlockCommand 
     }
 
     override fun runCommand() {
-        Interpreter.assignVar(Interpreter.getType(calculate(expression)), name, calculate(expression))
+        val list = Interpreter.getList(name)
+        if(list != null) {
+            (list[0] as MutableList<String>)[(list[2] as String).toInt()] = calculate(expression)
+            Interpreter.assignVar("list", list[1] as String, list[0].toString())
+        }
+        else Interpreter.assignVar(Interpreter.getType(calculate(expression)), name, calculate(expression))
     }
 }

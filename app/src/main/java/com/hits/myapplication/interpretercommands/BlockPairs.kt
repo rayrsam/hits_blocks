@@ -2,6 +2,7 @@ package com.hits.myapplication.interpretercommands
 
 import com.hits.myapplication.Block
 import com.hits.myapplication.IfBlock
+import com.hits.myapplication.ListBlock
 import com.hits.myapplication.OperBlock
 import com.hits.myapplication.OutBlock
 import com.hits.myapplication.WhileBlock
@@ -13,6 +14,7 @@ object BlockPairs {
             is OperBlock -> OperationCommand
             is IfBlock -> IfCommand
             is WhileBlock -> WhileCommand
+            is ListBlock -> ListCommand
             else -> null
         }
     }
