@@ -1,6 +1,7 @@
 package com.hits.myapplication.interpretercommands
 
 import com.hits.myapplication.Block
+import com.hits.myapplication.OperBlock
 import java.util.Stack
 
 object Interpreter {
@@ -8,6 +9,7 @@ object Interpreter {
     var blockList = emptyList<Block>()
     private var varMap = HashMap<String, Array<String>>()
     var output = mutableListOf<String>()
+    val calculator = OperationCommand.buildBlockCommand(OperBlock(-1, 0, 1))
 
     fun executeCode(): MutableList<String> {
         val queue = mutableListOf<BlockCommand>()
@@ -50,7 +52,7 @@ object Interpreter {
         val matchResult = regex.find(variable)
         val listName = matchResult?.let {it.groupValues[1].trim()}
         var index = matchResult?.let {it.groupValues[2].trim()}
-        if(index != null && getVar(index) != null) index = getVar(index)
+        if(index != null) index = calculator.calculate(index)
         return if(listName == null || index == null) null else mutableListOf(getVar(listName)!!.substring(1, getVar(listName)!!.length - 1).split(", ").toMutableList(), listName, index)
     }
 

@@ -11,8 +11,8 @@ class ListCommand(val name: String, val size: String, val list: String): BlockCo
         val result = "\\s*,\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*\$)".toRegex().split(list.trim())
         val listVar = mutableListOf<String>()
         for(i in 0..size.toInt() - 1) {
-            if(i < result.size - 1) listVar.add(result[i])
-            else if(list != "") listVar.add(result.last())
+            if(i < result.size - 1) listVar.add(calculate(result[i]))
+            else if(list != "") listVar.add(calculate(result.last()))
             else listVar.add("0")
         }
         Interpreter.assignVar("list", name, listVar.toString())

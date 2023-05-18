@@ -94,7 +94,7 @@ interface BlockCommand {
     }
 
     private fun parseExpression(expression: String): List<String> {
-        val pattern = """(\".*?\")|([\d]+(?:\.\d+)?)|([+\-*\/^~%]|[<>]=?|==|!=)|([\w\[\]]+)""".toRegex()
+        val pattern = """(\".*?\")|([\d]+(?:\.\d+)?)|([+\-*\/^~%()]|[<>]=?|==|!=)|([\w]+(?:\[[^\[\]]*\])?)""".toRegex()
         val result = pattern.findAll(expression).map { it.value }.toMutableList()
         for(i in result.indices) {
             if(Interpreter.getList(result[i]) != null) {
@@ -102,7 +102,7 @@ interface BlockCommand {
                 result[i] = (list!![0] as MutableList<String>)[(list[2] as String).toInt()]
             }
             if(Interpreter.getVar(result[i]) != null) result[i] = Interpreter.getVar(result[i]).toString()
-            else if(result[i] == "-" && (i == 0 || !result[i - 1].last().isLetterOrDigit())) result[i] = "~"
+            else if(result[i] == "-" && (i == 0 || (!result[i - 1].last().isLetterOrDigit() && result[i -1].last() != ')'))) result[i] = "~"
         }
         return result
     }
