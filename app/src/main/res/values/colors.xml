@@ -2,17 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
+
     <color name="style_orange">#DC8665</color>
     <color name="style_blue">#138086</color>
     <color name="style_violet">#534666</color>
     <color name="style_pink">#CD7672</color>
     <color name="style_yellow">#EEB462</color>
     <color name="style_green">#558C55</color>
-    
-    <color name="OutColor">#FF2196F3</color>
-    <color name="OperColor">#00695C</color>
-    <color name="VarColor">#373737</color>
+
+    <color name="background">@color/white</color>
+    <color name="elem">#393f5f</color>
+
+    <color name="while_color">#e96d5e</color>
+    <color name="output_color">#ff9760</color>
+    <color name="open_color">#6a7e6a</color>
+    <color name="list_color">#393f5f</color>
+    <color name="if_color">#ff9769</color>
+
+
 
     
 

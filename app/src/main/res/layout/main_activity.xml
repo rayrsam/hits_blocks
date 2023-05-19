@@ -10,24 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:backgroundTint="@color/VarColor">
-
-        <TextView
-            android:id="@+id/txRes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        android:backgroundTint="@color/background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/txRes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -41,7 +29,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@android:drawable/ic_media_play"
-            android:backgroundTint="@color/style_green"
+            android:backgroundTint="@color/elem"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/addB2"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -52,8 +40,8 @@
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
             android:background="@android:drawable/ic_input_add"
-            android:backgroundTint="@color/style_orange"
-            app:layout_constraintBottom_toTopOf="@+id/txRes"
+            android:backgroundTint="@color/elem"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="@+id/addB1"
             app:layout_constraintStart_toStartOf="@+id/addB1" />
 
@@ -62,9 +50,9 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:background="@color/white"
-            android:backgroundTint="@color/OperColor"
+            android:backgroundTint="@color/elem"
             android:fontFamily="@font/minecraft"
-            android:gravity="center_vertical"
+            android:gravity="center|center_vertical"
             android:shadowColor="@color/black"
             android:shadowRadius="5"
             android:text="StyleScript"
@@ -74,6 +62,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txRes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,14 +1,8 @@
 <resources>
+
     <string name="app_name">HITS BLOCKS</string>
     <string name="name_hint">Имя</string>
-
-    <string-array name="operations">
-        <item>+</item>
-        <item>-</item>
-        <item>*</item>
-        <item>/</item>
-        <item>%</item>
-    </string-array>
-
+    <string name="value_hint">Выражение</string>
+    <string name="cond_hint">Условие</string>
 
 </resources>

@@ -10,10 +10,16 @@
         android:title="Массив" />
     <item
         android:id="@+id/i3"
-        android:title="Условие" />
+        android:title="If - условие" />
+    <item
+        android:id="@+id/i5"
+        android:title="Else - условие" />
     <item
         android:id="@+id/i4"
         android:title="Цикл While" />
+    <item
+        android:id="@+id/i6"
+        android:title="Цикл For" />
     <item
         android:id="@+id/i2"
         android:title="Вывод" />

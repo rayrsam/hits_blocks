@@ -8,6 +8,10 @@ class DragSwap(
     val adapter: BlockAdapterBinding
 ) : ItemTouchHelper.Callback() {
 
+    val DEFAULT_DRAG_ANIMATION_DURATION = 100
+    val DEFAULT_SWIPE_ANIMATION_DURATION = 250
+
+
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -28,6 +32,21 @@ class DragSwap(
         )
         return true
     }
+
+   //override fun onMoved(
+   //    recyclerView: RecyclerView,
+   //    viewHolder: RecyclerView.ViewHolder,
+   //    fromPos: Int,
+   //    target: RecyclerView.ViewHolder,
+   //    toPos: Int,
+   //    x: Int,
+   //    y: Int
+   //) {
+   //    for (i in fromPos until  toPos){
+   //        adapter.notifyItemChanged(i)
+   //    }
+   //    super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
+   //}
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val ind = viewHolder.absoluteAdapterPosition
