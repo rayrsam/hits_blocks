@@ -10,6 +10,7 @@ object Interpreter {
     private var varMap = HashMap<String, Array<String>>()
     var output = mutableListOf<String>()
     val calculator = OperationCommand.buildBlockCommand(OperBlock(-1, 0, 1))
+    var lastIf: BlockCommand? = null
 
     fun executeCode(): MutableList<String> {
         val queue = mutableListOf<BlockCommand>()
@@ -18,12 +19,14 @@ object Interpreter {
         val containterStack = Stack<ContainerCommand>()
         var lastBlockTabs = 0
         var line = 1
+        lastIf = null
         blockList.forEach{
             val currentBlockCommand = BlockPairs.getType(it)!!.buildBlockCommand(it)
             if(it.tabs == 0) queue.add(currentBlockCommand)
             else containterStack.peek().queue.add(currentBlockCommand)
             if(it.tabs < lastBlockTabs) containterStack.pop()
             if(currentBlockCommand is ContainerCommand) containterStack.push(currentBlockCommand)
+            if(currentBlockCommand is IfCommand || currentBlockCommand is ElseCommand) lastIf = currentBlockCommand
             lastBlockTabs = it.tabs
         }
         queue.forEach{
