@@ -15,12 +15,13 @@ class BlockList {
     fun removeBlock(block: Block) {
         val index = blocks.indexOfFirst { it.id == block.id }
         if (index != -1) {
-                blocks = ArrayList(blocks)
-                blocks.removeAt(index)
-                notifyChanges()
+            blocks = ArrayList(blocks)
+            blocks.removeAt(index)
+            notifyChanges()
         }
     }
-    fun removeTabBlock(block: Block){
+
+    fun removeTabBlock(block: Block) {
         val index = blocks.indexOfFirst { it.id == block.id }
         if (index != -1) {
             if (blocks[index].tabs > 0) blocks[index].tabs--

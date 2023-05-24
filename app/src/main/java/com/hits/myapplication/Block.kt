@@ -9,55 +9,48 @@ open class Block(
 class ListBlock(
     id: Int,
     tabs: Int,
-    type: Int = 0,
-    var name: String? = null,
-    var size: String? = null,
-    var list: String? = null
+    var name: String = "",
+    var size: String = "",
+    var list: String = ""
 ) : Block(id, tabs, type = 0)
 
 class OperBlock(
     id: Int,
     tabs: Int,
-    type: Int = 1,
-    var left: String? = null,
-    var right: String? = null
+    var left: String = "",
+    var right: String = ""
 ) : Block(id, tabs, type = 1)
 
 class OutBlock(
     id: Int,
     tabs: Int,
-    type: Int = 2,
-    var out: String? = null
+    var out: String = ""
 ) : Block(id, tabs, type = 2)
 
 class IfBlock(
     id: Int,
     tabs: Int,
-    type: Int = 3,
-    var cond: String? = null
+    var cond: String = ""
 ) : Block(id, tabs, type = 3)
 
 class ElseBlock(
     id: Int,
     tabs: Int,
-    type: Int = 5,
-    var cond: String? = null
+    var cond: String = ""
 ) : Block(id, tabs, type = 5)
 
 class WhileBlock(
     id: Int,
     tabs: Int,
-    type: Int = 4,
     var cond: String = ""
 ) : Block(id, tabs, type = 4)
 
 class ForBlock(
     id: Int,
     tabs: Int,
-    type: Int = 6,
-    var predLeft: String? = null,
-    var predRight: String? = null,
-    var cond: String? = null,
-    var postLeft: String? = null,
-    var postRight: String? = null
+    var predLeft: String = "",
+    var predRight: String = "",
+    var cond: String = "",
+    var postLeft: String = "",
+    var postRight: String = ""
 ) : Block(id, tabs, type = 6)

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class DragSwap(
-    val adapter: BlockAdapterBinding
+    private val adapter: BlockAdapter
 ) : ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(

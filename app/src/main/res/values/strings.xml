@@ -4,7 +4,8 @@
     <string name="name_hint">Имя</string>
     <string name="value_hint">Выражение</string>
     <string name="cond_hint">Условие</string>
-
-
+    <string name="dialog_apply">ОК</string>
+    <string name="dialog_canсel">Отмена</string>
+    <string name="dialog_delete">Удалить</string>
 
 </resources>

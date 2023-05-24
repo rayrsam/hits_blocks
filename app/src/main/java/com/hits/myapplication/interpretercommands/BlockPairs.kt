@@ -11,7 +11,7 @@ import com.hits.myapplication.WhileBlock
 
 object BlockPairs {
     fun getType(block: Block): BlockCommandFactory? {
-        return when(block) {
+        return when (block) {
             is OutBlock -> OutputCommand
             is OperBlock -> OperationCommand
             is IfBlock -> IfCommand

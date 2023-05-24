@@ -9,7 +9,7 @@ object Interpreter {
     var blockList = emptyList<Block>()
     private var varMap = HashMap<String, Array<String>>()
     var output = mutableListOf<String>()
-    val calculator = OperationCommand.buildBlockCommand(OperBlock(-1, 0, 1))
+    private val calculator = OperationCommand.buildBlockCommand(OperBlock(-1, 0))
     var lastIf: BlockCommand? = null
 
     fun executeCode(): MutableList<String> {
