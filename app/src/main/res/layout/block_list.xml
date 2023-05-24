@@ -29,7 +29,7 @@
 
         <EditText
             android:id="@+id/list"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/value_size"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -41,17 +41,16 @@
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/name_size"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
             android:backgroundTint="#F6F6F6"
             android:ems="10"
             android:fontFamily="@font/collimator"
@@ -59,16 +58,15 @@
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toTopOf="@+id/list"
             app:layout_constraintStart_toStartOf="@+id/list"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/size"
-            android:layout_width="80dp"
+            android:layout_width="@dimen/name_size"
             android:layout_height="0dp"
-            android:layout_marginStart="32dp"
             android:backgroundTint="#F6F6F6"
             android:ems="10"
             android:fontFamily="@font/collimator"
@@ -76,22 +74,9 @@
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="@+id/name"
-            app:layout_constraintStart_toEndOf="@+id/name"
-            app:layout_constraintTop_toTopOf="@+id/name" />
-
-        <Button
-            android:id="@+id/downB"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/round"
-            android:text="\\/"
-            app:layout_constraintBottom_toBottomOf="@+id/name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/size"
+            app:layout_constraintEnd_toEndOf="@+id/list"
             app:layout_constraintTop_toTopOf="@+id/name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

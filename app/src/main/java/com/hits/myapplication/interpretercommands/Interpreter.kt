@@ -20,21 +20,29 @@ object Interpreter {
         var lastBlockTabs = 0
         var line = 1
         lastIf = null
-        blockList.forEach{
+
+        blockList.forEach {
             val currentBlockCommand = BlockPairs.getType(it)!!.buildBlockCommand(it)
-            if(it.tabs == 0) queue.add(currentBlockCommand)
-            else containterStack.peek().queue.add(currentBlockCommand)
-            if(it.tabs < lastBlockTabs) containterStack.pop()
-            if(currentBlockCommand is ContainerCommand) containterStack.push(currentBlockCommand)
-            if(currentBlockCommand is IfCommand || currentBlockCommand is ElseCommand) lastIf = currentBlockCommand
+
+            if (it.tabs == 0) queue.add(currentBlockCommand)
+            else {
+                if (it.tabs < lastBlockTabs) containterStack.pop()
+                containterStack.peek().queue.add(currentBlockCommand)
+            }
+
+            if (currentBlockCommand is ContainerCommand) containterStack.push(currentBlockCommand)
+
+            if (currentBlockCommand is IfCommand || currentBlockCommand is ElseCommand)
+                lastIf = currentBlockCommand
+
             lastBlockTabs = it.tabs
         }
-        queue.forEach{
-            try{
+
+        queue.forEach {
+            try {
                 it.runCommand()
                 line += 1
-            }
-            catch(e: Exception) {
+            } catch (e: Exception) {
                 output = mutableListOf("Runtime error!", "Line $line")
                 return output
             }
@@ -47,23 +55,28 @@ object Interpreter {
     }
 
     fun getVar(name: String): String? {
-        return if(varMap.keys.contains(name)) varMap[name]!![1] else null
+        return if (varMap.keys.contains(name)) varMap[name]!![1] else null
     }
 
     fun getList(variable: String): MutableList<Any>? {
         val regex = "^([a-zA-Z]*)\\[(.*)\\]$".toRegex()
         val matchResult = regex.find(variable)
-        val listName = matchResult?.let {it.groupValues[1].trim()}
-        var index = matchResult?.let {it.groupValues[2].trim()}
-        if(index != null) index = calculator.calculate(index)
-        return if(listName == null || index == null) null else mutableListOf(getVar(listName)!!.substring(1, getVar(listName)!!.length - 1).split(", ").toMutableList(), listName, index)
+        val listName = matchResult?.let { it.groupValues[1].trim() }
+        var index = matchResult?.let { it.groupValues[2].trim() }
+        if (index != null) index = calculator.calculate(index)
+        return if (listName == null || index == null) null else mutableListOf(
+            getVar(listName)!!.substring(
+                1,
+                getVar(listName)!!.length - 1
+            ).split(", ").toMutableList(), listName, index
+        )
     }
 
     fun getType(variable: String): String {
-        return if(variable == "true" || variable == "false") "bool"
-        else if(variable.toIntOrNull() != null) "int"
-        else if(variable.toDoubleOrNull() != null) "double"
-        else if(variable.first() == '[' && variable.last() == ']') "list"
+        return if (variable == "true" || variable == "false") "bool"
+        else if (variable.toIntOrNull() != null) "int"
+        else if (variable.toDoubleOrNull() != null) "double"
+        else if (variable.first() == '[' && variable.last() == ']') "list"
         else "str"
     }
 

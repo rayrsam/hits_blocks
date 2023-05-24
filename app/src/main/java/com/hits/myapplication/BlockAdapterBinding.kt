@@ -1,6 +1,5 @@
 package com.hits.myapplication
 
-import android.text.InputType.TYPE_NULL
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ interface BlockActionListener {
     fun onBlockDelete(block: Block)
     fun onBlockSwap(oldInd: Int, newInd: Int)
     fun onBlockTab(block: Block)
+    fun onBlockUntab(block: Block)
     fun onBlockEdit(block: Block)
 }
 
@@ -60,43 +60,52 @@ class BlockAdapterBinding(
         when (viewType) {
             0 -> { //List
                 val binding = BlockListBinding.inflate(inflater, parent, false)
-                binding.downB.setOnClickListener(this)
+                //binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.name.setOnClickListener(this)
+                binding.size.setOnClickListener(this)
+                binding.list.setOnClickListener(this)
                 return BlockListHolder(binding);
             }
 
             1 -> { //Operation
                 val binding = BlockOBinding.inflate(inflater, parent, false)
-                binding.downB.setOnClickListener(this)
+                //binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.right.setOnClickListener(this)
+                binding.left.setOnClickListener(this)
                 return BlockOHolder(binding);
             }
 
             2 -> { //Output
                 val binding = BlockOutBinding.inflate(inflater, parent, false)
-                binding.downB.setOnClickListener(this)
+                //binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.out.setOnClickListener(this)
                 return BlockOutHolder(binding);
             }
 
             3 -> { //if
                 val binding = BlockIfBinding.inflate(inflater, parent, false)
-                binding.downB.setOnClickListener(this)
+                //binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.cond.setOnClickListener(this)
                 return BlockIfHolder(binding);
             }
 
             4 -> { //while
                 val binding = BlockWhileBinding.inflate(inflater, parent, false)
-                binding.downB.setOnClickListener(this)
+                //binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.cond.setOnClickListener(this)
                 return BlockWhileHolder(binding);
             }
 
             5 -> { //else
                 val binding = BlockElseBinding.inflate(inflater, parent, false)
-                binding.downB.setOnClickListener(this)
+                //binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.cond.setOnClickListener(this)
                 return BlockElseHolder(binding);
             }
 
@@ -104,6 +113,11 @@ class BlockAdapterBinding(
                 val binding = BlockForBinding.inflate(inflater, parent, false)
                 binding.downB.setOnClickListener(this)
                 binding.root.setOnClickListener(this)
+                binding.predLeft.setOnClickListener(this)
+                binding.predRight.setOnClickListener(this)
+                binding.cond.setOnClickListener(this)
+                binding.postLeft.setOnClickListener(this)
+                binding.postRight.setOnClickListener(this)
                 return BlockForHolder(binding);
             }
         }
@@ -121,12 +135,15 @@ class BlockAdapterBinding(
             0 -> { //List
                 val block = block as ListBlock
                 with((holder as BlockListHolder).binding) {
-                    downB.tag = block
+                    //downB.tag = block
                     root.tag = block
+                    name.tag = block
+                    size.tag = block
+                    list.tag = block
 
-                    name.setEnabled(false);
-                    size.setEnabled(false);
-                    list.setEnabled(false);
+                    name.focusable = View.NOT_FOCUSABLE
+                    size.focusable = View.NOT_FOCUSABLE
+                    list.focusable = View.NOT_FOCUSABLE
 
                     tabs.text = newTabs
                     name.setText(block.name)
@@ -139,11 +156,13 @@ class BlockAdapterBinding(
             1 -> { //Operation
                 val block = block as OperBlock
                 with((holder as BlockOHolder).binding) {
-                    downB.tag = block
+                    //downB.tag = block
                     root.tag = block
+                    left.tag = block
+                    right.tag = block
 
-                    left.setEnabled(false);
-                    right.setEnabled(false);
+                    left.focusable = View.NOT_FOCUSABLE
+                    right.focusable = View.NOT_FOCUSABLE
 
                     tabs.text = newTabs
                     left.setText(block.left)
@@ -154,9 +173,11 @@ class BlockAdapterBinding(
             2 -> { //Output
                 val block = block as OutBlock
                 with((holder as BlockOutHolder).binding) {
-                    downB.tag = block
+                    //downB.tag = block
                     root.tag = block
-                    out.setEnabled(false);
+                    out.tag = block
+
+                    out.focusable = View.NOT_FOCUSABLE
 
                     tabs.text = newTabs
                     out.setText(block.out)
@@ -166,9 +187,11 @@ class BlockAdapterBinding(
             3 -> { //if
                 val block = block as IfBlock
                 with((holder as BlockIfHolder).binding) {
-                    downB.tag = block
+                    //downB.tag = block
                     root.tag = block
-                    cond.setEnabled(false);
+                    cond.tag = block
+                    
+                    cond.focusable = View.NOT_FOCUSABLE
 
                     tabs.text = newTabs
                     cond.setText(block.cond)
@@ -178,11 +201,12 @@ class BlockAdapterBinding(
             4 -> { //While
                 val block = block as WhileBlock
                 with((holder as BlockWhileHolder).binding) {
-                    downB.tag = block
+                    //downB.tag = block
                     root.tag = block
+                    cond.tag = block
+                    
                     tabs.text = newTabs
-
-                    cond.setEnabled(false);
+                    cond.focusable = View.NOT_FOCUSABLE
                     cond.setText(block.cond)
                 }
             }
@@ -190,42 +214,46 @@ class BlockAdapterBinding(
             5 -> { // Else
                 val block = block as ElseBlock
                 with((holder as BlockElseHolder).binding) {
-                    downB.tag = block
+                    //downB.tag = block
                     root.tag = block
+                    cond.tag = block
 
                     tabs.text = newTabs
-                    if (block.cond?.isBlank() == true){
+                    if (block.cond?.isBlank() == true) {
                         cond.visibility = View.INVISIBLE
                         textIf.visibility = View.INVISIBLE
-                    }
-                    else {
+                    } else {
                         cond.visibility = View.VISIBLE
                         textIf.visibility = View.VISIBLE
-                        //cond.isEnabled = false;
-                        cond.inputType = TYPE_NULL
+                        cond.focusable = View.NOT_FOCUSABLE
                         cond.setText(block.cond)
                     }
                 }
             }
-            else -> { //for 
+
+            else -> { //for
                 val block = block as ForBlock
                 with((holder as BlockForHolder).binding) {
                     downB.tag = block
                     root.tag = block
+                    predLeft.tag = block
+                    predRight.tag = block
+                    cond.tag = block
+                    postLeft.tag = block
+                    postRight.tag = block
 
-                    predLeft.setEnabled(false);
-                    predRight.setEnabled(false);
-                    cond.setEnabled(false);
-                    postLeft.setEnabled(false);
-                    postRight.setEnabled(false);
+                    predLeft.focusable = View.NOT_FOCUSABLE
+                    predRight.focusable = View.NOT_FOCUSABLE
+                    cond.focusable = View.NOT_FOCUSABLE
+                    postLeft.focusable = View.NOT_FOCUSABLE
+                    postRight.focusable = View.NOT_FOCUSABLE
 
                     tabs.text = newTabs
-
-                    predLeft.setText(block.predLeft);
-                    predRight.setText(block.predRight);
-                    cond.setText(block.cond);
-                    postLeft.setText(block.postLeft);
-                    postRight.setText(block.postRight);
+                    predLeft.setText(block.predLeft)
+                    predRight.setText(block.predRight)
+                    cond.setText(block.cond)
+                    postLeft.setText(block.postLeft)
+                    postRight.setText(block.postRight)
                 }
             }
         }

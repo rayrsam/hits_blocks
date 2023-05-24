@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="font_size">18sp</dimen>
+    <dimen name="name_size">100dp</dimen>
+    <dimen name="cond_size">250dp</dimen>
+    <dimen name="value_size">250dp</dimen>
+</resources>

@@ -30,11 +30,10 @@
 
         <EditText
             android:id="@+id/out"
-            android:layout_width="60dp"
+            android:layout_width="@dimen/value_size"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:ems="10"
             android:fontFamily="@font/collimator"
@@ -42,9 +41,8 @@
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/downB"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,21 +56,11 @@
             android:fontFamily="@font/collimator"
             android:text="Вывод:"
             android:textColor="#FFFFFF"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/downB"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/round"
-            android:text="\\/"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

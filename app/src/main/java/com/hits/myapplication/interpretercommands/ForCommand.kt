@@ -13,7 +13,10 @@ class ForCommand(condition: String, val name1: String, val name2: String, val ex
         val operBlock1 = OperationCommand(name1, exp1)
         val operBlock2 = OperationCommand(name2, exp2)
         operBlock1.runCommand()
-        queue.add(operBlock2)
-        while (calculate(condition) == "true") queue.forEach{it.runCommand()}
+
+        while (calculate(condition) == "true") {
+            queue.forEach{it.runCommand()}
+            operBlock2.runCommand()
+        }
     }
 }

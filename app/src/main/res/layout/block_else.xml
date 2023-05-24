@@ -34,7 +34,7 @@
             android:fontFamily="@font/collimator"
             android:text="if"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
@@ -47,40 +47,27 @@
             android:fontFamily="@font/collimator"
             android:text="else"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="@+id/cond"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cond" />
 
         <EditText
             android:id="@+id/cond"
-            android:layout_width="150dp"
+            android:layout_width="@dimen/cond_size"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/collimator"
             android:hint="@string/cond_hint"
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/downB"
             app:layout_constraintStart_toEndOf="@+id/textIf"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/downB"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/round"
-            android:text="\\/"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cond"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
