@@ -6,7 +6,7 @@ import com.hits.myapplication.OperBlock
 class OperationCommand(val name: String, private val expression: String) : BlockCommand {
     companion object Factory : BlockCommandFactory() {
         override fun buildBlockCommand(block: Block) =
-            OperationCommand((block as OperBlock).left.toString(), block.right.toString())
+            OperationCommand((block as OperBlock).left, block.right)
     }
 
     override fun runCommand() {

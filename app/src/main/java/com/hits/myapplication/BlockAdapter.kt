@@ -17,30 +17,27 @@ interface BlockActionListener {
     fun onBlockDelete(block: Block)
     fun onBlockSwap(oldInd: Int, newInd: Int)
     fun onBlockTab(block: Block)
-    fun onBlockUntab(block: Block)
+    fun onBlockUnTab(block: Block)
     fun onBlockEdit(block: Block)
 }
 
 class BlockDiffCallback(
-    private val oldlist: List<Block>,
-    private val newlist: List<Block>
+    private val oldList: List<Block>,
+    private val newList: List<Block>
 ) : DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldlist.size
-
-    override fun getNewListSize(): Int = newlist.size
-
+    override fun getOldListSize(): Int = oldList.size
+    override fun getNewListSize(): Int = newList.size
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldlist[oldItemPosition].id == newlist[newItemPosition].id
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val old = oldlist[oldItemPosition]
-        val new = newlist[newItemPosition]
+        val old = oldList[oldItemPosition]
+        val new = newList[newItemPosition]
         return old.id == new.id && old.type == new.type && old.tabs == new.tabs
     }
 
 }
-
 
 class BlockAdapter(
     val actionListener: BlockActionListener
@@ -65,53 +62,28 @@ class BlockAdapter(
             4 -> BlockWhileHolder(BlockWhileBinding.inflate(inflater, parent, false))
             5 -> BlockElseHolder(BlockElseBinding.inflate(inflater, parent, false))
             else -> BlockForHolder(BlockForBinding.inflate(inflater, parent, false))
-            }
-
+        }
         holder.create(this)
         return holder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        lateinit var block: Block
-        val newTabs = getNewTabs(position)
+        val block = blocks[position]
+        val newTabs = getNewTabs(block.tabs)
 
-        when (blocks[position].type) {
-            0 -> { //List
-                block = blocks[position] as ListBlock
-                (holder as BlockListHolder).bind(block, newTabs)
-            }
-
-            1 -> { //Operation
-                block = blocks[position] as OperBlock
-                (holder as BlockOHolder).bind(block, newTabs)
-            }
-
-            2 -> { //Output
-                block = blocks[position] as OutBlock
-                (holder as BlockOutHolder).bind(block, newTabs)
-            }
-
-            3 -> { //if
-                block = blocks[position] as IfBlock
-                (holder as BlockIfHolder).bind(block, newTabs)
-            }
-
-            4 -> { //While
-                block = blocks[position] as WhileBlock
-                (holder as BlockWhileHolder).bind(block, newTabs)
-            }
-
-            5 -> { // Else
-                block = blocks[position] as ElseBlock
-                (holder as BlockElseHolder).bind(block, newTabs)
-            }
-
-            else -> { //for
-                block = blocks[position] as ForBlock
-                (holder as BlockForHolder).bind(block, newTabs)
-            }
+        @Suppress("NAME_SHADOWING")
+        val holder = when (block.type) {
+            0 -> holder as BlockListHolder
+            1 -> holder as BlockOHolder
+            2 -> holder as BlockOutHolder
+            3 -> holder as BlockIfHolder
+            4 -> holder as BlockWhileHolder
+            5 -> holder as BlockElseHolder
+            else -> holder as BlockForHolder
         }
+        holder.bind(block, newTabs)
     }
+
 
     override fun getItemViewType(position: Int): Int {
         return blocks[position].type
@@ -124,9 +96,9 @@ class BlockAdapter(
         actionListener.onBlockEdit(block)
     }
 
-    private fun getNewTabs(position: Int): String {
+    private fun getNewTabs(numTabs: Int): String {
         var newTabs = ""
-        for (i in 0 until blocks[position].tabs) {
+        for (i in 0 until numTabs) {
             newTabs += "●"
         }
         return newTabs

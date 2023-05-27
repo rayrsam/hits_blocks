@@ -13,11 +13,11 @@ class ForCommand(
 ) : ConditionCommand(condition) {
     companion object Factory : BlockCommandFactory() {
         override fun buildBlockCommand(block: Block) = ForCommand(
-            (block as ForBlock).cond.toString(),
-            block.predLeft.toString(),
-            block.postLeft.toString(),
-            block.predRight.toString(),
-            block.postRight.toString()
+            (block as ForBlock).cond,
+            block.predLeft,
+            block.postLeft,
+            block.predRight,
+            block.postRight
         )
     }
 

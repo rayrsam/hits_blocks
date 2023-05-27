@@ -35,7 +35,7 @@ class DragSwap(
 
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                adapter.actionListener.onBlockUntab(block)
+                adapter.actionListener.onBlockUnTab(block)
                 adapter.notifyItemChanged(ind)
             }
 

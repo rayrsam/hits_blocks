@@ -16,7 +16,7 @@ object Interpreter {
         val queue = mutableListOf<BlockCommand>()
         output = mutableListOf()
         varMap = hashMapOf()
-        val containterStack = Stack<ContainerCommand>()
+        val containerStack = Stack<ContainerCommand>()
         var lastBlockTabs = 0
         var line = 1
         lastIf = null
@@ -26,11 +26,11 @@ object Interpreter {
 
             if (it.tabs == 0) queue.add(currentBlockCommand)
             else {
-                if (it.tabs < lastBlockTabs) containterStack.pop()
-                containterStack.peek().queue.add(currentBlockCommand)
+                if (it.tabs < lastBlockTabs) containerStack.pop()
+                containerStack.peek().queue.add(currentBlockCommand)
             }
 
-            if (currentBlockCommand is ContainerCommand) containterStack.push(currentBlockCommand)
+            if (currentBlockCommand is ContainerCommand) containerStack.push(currentBlockCommand)
 
             if (currentBlockCommand is IfCommand || currentBlockCommand is ElseCommand)
                 lastIf = currentBlockCommand

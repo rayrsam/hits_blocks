@@ -3,12 +3,13 @@ package com.hits.myapplication.interpretercommands
 import com.hits.myapplication.Block
 import com.hits.myapplication.ListBlock
 
-class ListCommand(val name: String, private val size: String, private val list: String) : BlockCommand {
+class ListCommand(val name: String, private val size: String, private val list: String) :
+    BlockCommand {
     companion object Factory : BlockCommandFactory() {
         override fun buildBlockCommand(block: Block) = ListCommand(
-            (block as ListBlock).name.toString(),
-            block.size.toString(),
-            block.list.toString()
+            (block as ListBlock).name,
+            block.size,
+            block.list
         )
     }
 

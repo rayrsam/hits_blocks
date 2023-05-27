@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.hits.myapplication
 
 import android.view.View
@@ -11,10 +13,12 @@ import com.hits.myapplication.databinding.BlockOBinding
 import com.hits.myapplication.databinding.BlockOutBinding
 import com.hits.myapplication.databinding.BlockWhileBinding
 
+
 abstract class BlockHolder(
     binding: ViewBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    open fun create(parent: BlockAdapter) {}
+    abstract fun create(parent: BlockAdapter)
+    abstract fun bind(block: Block, newTabs: String)
 }
 
 class BlockOHolder(
@@ -25,7 +29,9 @@ class BlockOHolder(
         binding.right.setOnClickListener(parent)
         binding.left.setOnClickListener(parent)
     }
-    fun bind(block: OperBlock, newTabs: String) {
+
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as OperBlock
         with(binding) {
 
             root.tag = block
@@ -38,6 +44,7 @@ class BlockOHolder(
             tabs.text = newTabs
             left.setText(block.left)
             right.setText(block.right)
+
         }
     }
 }
@@ -52,7 +59,8 @@ class BlockListHolder(
         binding.list.setOnClickListener(parent)
     }
 
-    fun bind(block: ListBlock, newTabs: String) {
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as ListBlock
         with(binding) {
             root.tag = block
             name.tag = block
@@ -79,7 +87,8 @@ class BlockOutHolder(
         binding.out.setOnClickListener(parent)
     }
 
-    fun bind(block: OutBlock, newTabs: String) {
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as OutBlock
         with(binding) {
             root.tag = block
             out.tag = block
@@ -100,7 +109,8 @@ class BlockIfHolder(
         binding.cond.setOnClickListener(parent)
     }
 
-    fun bind(block: IfBlock, newTabs: String) {
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as IfBlock
         with(binding) {
             root.tag = block
             cond.tag = block
@@ -121,7 +131,8 @@ class BlockWhileHolder(
         binding.cond.setOnClickListener(parent)
     }
 
-    fun bind(block: WhileBlock, newTabs: String) {
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as WhileBlock
         with(binding) {
             root.tag = block
             cond.tag = block
@@ -141,7 +152,8 @@ class BlockElseHolder(
         binding.cond.setOnClickListener(parent)
     }
 
-    fun bind(block: ElseBlock, newTabs: String) {
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as ElseBlock
         with(binding) {
             root.tag = block
             cond.tag = block
@@ -172,7 +184,8 @@ class BlockForHolder(
         binding.postRight.setOnClickListener(parent)
     }
 
-    fun bind(block: ForBlock, newTabs: String) {
+    override fun bind(block: Block, newTabs: String) {
+        val block = block as ForBlock
         with(binding) {
             root.tag = block
             predLeft.tag = block

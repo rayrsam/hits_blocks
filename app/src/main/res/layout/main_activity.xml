@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer"
     android:layout_width="match_parent"
@@ -9,15 +8,15 @@
 
     <TextView
         android:id="@+id/console"
-        android:layout_width="300dp"
+        android:layout_width="@dimen/value_size"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/black"
         android:backgroundTint="@color/black"
         android:fontFamily="@font/collimator"
+        android:scrollbars="vertical"
         android:textColor="@color/white"
-        android:textSize="@dimen/font_size"
-        android:scrollbars = "vertical" />
+        android:textSize="@dimen/font_size" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,53 +35,63 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <Button
-            android:id="@+id/addB1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:id="@+id/StartBut"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@android:drawable/ic_media_play"
-            android:backgroundTint="@color/elem"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/addB2"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/AddBut"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/addB2"
+            android:id="@+id/AddBut"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/button_size"
             android:layout_marginBottom="16dp"
             android:background="@android:drawable/ic_input_add"
-            android:backgroundTint="@color/elem"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/addB1"
-            app:layout_constraintStart_toStartOf="@+id/addB1" />
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/OptBut"
+            app:layout_constraintEnd_toEndOf="@+id/StartBut"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/StartBut" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/elem"
+            android:layout_height="@dimen/button_size"
+            android:background="@color/elem"
             android:fontFamily="@font/minecraft"
             android:gravity="center|center_vertical"
             android:shadowColor="@color/black"
             android:shadowRadius="5"
-            android:text="StyleScript"
+            android:text="@string/app_name"
             android:textAlignment="gravity"
-            android:textColor="@color/white"
+            android:textColor="@color/if_color"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/consB"
-            android:layout_width="40dp"
-            android:layout_height="41dp"
-            android:text="="
-            android:textColor="@color/white"
-            android:textSize="34sp"
+        <Button
+            android:id="@+id/OptBut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@android:drawable/stat_sys_upload_done"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/StartBut"
+            app:layout_constraintStart_toStartOf="@+id/StartBut" />
+
+        <Button
+            android:id="@+id/ConsBut"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="0dp"
+            android:background="@android:drawable/ic_media_next"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -4,10 +4,11 @@ import com.hits.myapplication.Block
 import com.hits.myapplication.ElseBlock
 
 
-class ElseCommand(condition: String, private val ifBlock: ConditionCommand) : ConditionCommand(condition) {
+class ElseCommand(condition: String, private val ifBlock: ConditionCommand) :
+    ConditionCommand(condition) {
     companion object Factory : BlockCommandFactory() {
         override fun buildBlockCommand(block: Block) = ElseCommand(
-            (block as ElseBlock).cond.toString(),
+            (block as ElseBlock).cond,
             Interpreter.lastIf as ConditionCommand
         )
     }
@@ -23,9 +24,11 @@ class ElseCommand(condition: String, private val ifBlock: ConditionCommand) : Co
             is IfCommand -> {
                 calculate(ifBlock.condition) != "true"
             }
+
             is ElseCommand -> {
                 ifBlock.condition != "" && calculate(ifBlock.condition) != "true" && ifBlock.checkLastIf()
             }
+
             else -> false
         }
     }

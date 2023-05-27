@@ -1,11 +1,27 @@
 <resources>
 
-    <string name="app_name">HITS BLOCKS</string>
+    <string name="app_name">StyleScript</string>
+
+    <string name="if_view">if</string>
+    <string name="else_view">else</string>
+    <string name="for_view">for</string>
+    <string name="equal_view">=</string>
+    <string name="while_view">while</string>
+
     <string name="name_hint">Имя</string>
     <string name="value_hint">Выражение</string>
     <string name="cond_hint">Условие</string>
+    <string name="size_hint">Размер</string>
+    <string name="output_hint">Вывод:</string>
+
     <string name="dialog_apply">ОК</string>
     <string name="dialog_canсel">Отмена</string>
     <string name="dialog_delete">Удалить</string>
+
+    <string name="options_clear">Очистить</string>
+    <string name="options_save">Сохранить</string>
+    <string name="options_load">Загрузить</string>
+
+
 
 </resources>

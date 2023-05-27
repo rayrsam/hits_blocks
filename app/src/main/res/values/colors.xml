@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="style_orange">#DC8665</color>
     <color name="style_blue">#138086</color>
@@ -10,17 +10,15 @@
     <color name="style_yellow">#EEB462</color>
     <color name="style_green">#558C55</color>
 
-    <color name="background">@color/white</color>
-    <color name="elem">#393f5f</color>
+    <color name="background">#a8dadc</color>
+    <color name="elem">#f1faee</color>
 
-    <color name="while_color">#e96d5e</color>
-    <color name="output_color">#ff9760</color>
-    <color name="open_color">#6a7e6a</color>
-    <color name="list_color">#393f5f</color>
-    <color name="if_color">#ff9769</color>
-
-
-
-    
+    <color name="while_color">#357b9d</color>
+    <color name="for_color">#357b9d</color>
+    <color name="output_color">#D52B1E</color>
+    <color name="open_color">#D52B1E</color>
+    <color name="list_color">#357b9d</color>
+    <color name="if_color">#1d3557</color>
+    <color name="else_color">#1d3557</color>
 
 </resources>

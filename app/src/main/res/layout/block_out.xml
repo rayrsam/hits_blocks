@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -35,9 +34,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:backgroundTint="@color/white"
             android:ems="10"
             android:fontFamily="@font/collimator"
-            android:hint="@string/name_hint"
+            android:hint="@string/value_hint"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -54,7 +55,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:fontFamily="@font/collimator"
-            android:text="Вывод:"
+            android:text="@string/output_hint"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/font_size"
             app:layout_constraintBottom_toBottomOf="parent"

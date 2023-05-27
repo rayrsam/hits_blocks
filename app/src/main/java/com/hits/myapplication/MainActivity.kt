@@ -1,16 +1,20 @@
 package com.hits.myapplication
 
 import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.hits.myapplication.databinding.ActionsDialogBinding
 import com.hits.myapplication.databinding.BlockElseBinding
 import com.hits.myapplication.databinding.BlockForBinding
 import com.hits.myapplication.databinding.BlockIfBinding
@@ -18,7 +22,6 @@ import com.hits.myapplication.databinding.BlockListBinding
 import com.hits.myapplication.databinding.BlockOBinding
 import com.hits.myapplication.databinding.BlockOutBinding
 import com.hits.myapplication.databinding.BlockWhileBinding
-import com.hits.myapplication.databinding.ConsoleDialogBinding
 import com.hits.myapplication.databinding.MainActivityBinding
 import com.hits.myapplication.interpretercommands.Interpreter
 
@@ -26,7 +29,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var binding: MainActivityBinding
     private lateinit var adapter: BlockAdapter
     private var output = ""
-    private var index = 0
 
     private val blockList: BlockList
         get() = (applicationContext as App).blockList
@@ -54,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 blockList.addTabBlock(block)
             }
 
-            override fun onBlockUntab(block: Block) {
+            override fun onBlockUnTab(block: Block) {
                 blockList.removeTabBlock(block)
             }
 
@@ -80,9 +82,11 @@ class MainActivity : ComponentActivity() {
             itemTouchSwap.attachToRecyclerView(recyclerView)
             console.movementMethod = ScrollingMovementMethod()
 
-            addB1.setOnClickListener { start() }
-            addB2.setOnClickListener { showPopUpMenu(it) }
-            consB.setOnClickListener { drawer.openDrawer(GravityCompat.START) }
+            StartBut.setOnClickListener { start() }
+            AddBut.setOnClickListener { showPopUpMenu(it) }
+            OptBut.setOnClickListener { showBottomSheet() }
+
+            ConsBut.setOnClickListener { drawer.openDrawer(GravityCompat.START) }
         }
 
     }
@@ -106,75 +110,32 @@ class MainActivity : ComponentActivity() {
         popup.menu.add(0, 6, Menu.NONE, "Цикл For")
         popup.menu.add(0, 2, Menu.NONE, "Вывод")
 
-        popup.setOnMenuItemClickListener { addBLock(it.itemId) }
+        popup.setOnMenuItemClickListener { onBlockAdd(it.itemId) }
         popup.show()
     }
 
-    private fun showBottomSheet(output: String) {
+    private fun showBottomSheet() {
         val dialog = BottomSheetDialog(this)
-        val dialogBinding = ConsoleDialogBinding.inflate(layoutInflater)
-
+        val dialogBinding = ActionsDialogBinding.inflate(layoutInflater)
+        dialogBinding.apply {
+            ClearBut.setOnClickListener { blockList.clearBlocks(); dialog.dismiss() }
+            SaveBut.setOnClickListener { saveLauncher.launch("new_alg.stylescript"); dialog.dismiss() }
+            LoadBut.setOnClickListener { loadLauncher.launch(arrayOf("text/plain")); dialog.dismiss() }
+        }
         dialog.setContentView(dialogBinding.root)
-        //dialogBinding.console.setText(output)
         dialog.show()
     }
 
-    private fun addBLock(type: Int): Boolean {
-        var tabs = 0
-        val num = blockList.getBlocks().size
-
-        if (num != 0) {
-            val prev = blockList.getBlocks()[num - 1]
-            tabs = prev.tabs
-            if (prev.type >= 3) {
-                tabs++
-            }
-        }
-
+    private fun onBlockAdd(type: Int): Boolean {
         when (type) {
-            0 -> {
-                val newBlock = ListBlock(index, tabs)
-                showListBlockDialog(newBlock)
-                blockList.addBlock(newBlock)
-            }
-
-            1 -> {
-                val newBlock = OperBlock(index, tabs)
-                blockList.addBlock(newBlock)
-                showOperBlockDialog(newBlock)
-            }
-
-            2 -> {
-                val newBlock = OutBlock(index, tabs)
-                showOutBlockDialog(newBlock)
-                blockList.addBlock(newBlock)
-            }
-
-            3 -> {
-                val newBlock = IfBlock(index, tabs)
-                showIfBlockDialog(newBlock)
-                blockList.addBlock(newBlock)
-            }
-
-            4 -> {
-                val newBlock = WhileBlock(index, tabs)
-                showWhileBlockDialog(newBlock)
-                blockList.addBlock(newBlock)
-            }
-
-            5 -> {
-                val newBlock = ElseBlock(index, tabs)
-                showElseBlockDialog(newBlock)
-                blockList.addBlock(newBlock)
-            }
-
-            else -> {
-                val newBlock = ForBlock(index, tabs)
-                showForBlockDialog(newBlock)
-                blockList.addBlock(newBlock)
-            }
+            0 -> showListBlockDialog(blockList.createBlock(type) as ListBlock)
+            1 -> showOperBlockDialog(blockList.createBlock(type) as OperBlock)
+            2 -> showOutBlockDialog(blockList.createBlock(type) as OutBlock)
+            3 -> showIfBlockDialog(blockList.createBlock(type) as IfBlock)
+            4 -> showWhileBlockDialog(blockList.createBlock(type) as WhileBlock)
+            5 -> showElseBlockDialog(blockList.createBlock(type) as ElseBlock)
+            else -> showForBlockDialog(blockList.createBlock(type) as ForBlock)
         }
-        index++
         return true
     }
 
@@ -358,5 +319,39 @@ class MainActivity : ComponentActivity() {
         blockList.removeListener(blockListener)
     }
 
+    private val loadLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            try {
+                uri?.let { openFile(it) }
+            } catch (e: Exception) {
+                showError(e)
+            }
+        }
+    private val saveLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { result ->
+            try {
+                result?.let { saveFile(it) }
+            } catch (e: Exception) {
+                showError(e)
+            }
+        }
+
+    private fun openFile(uri: Uri) {
+        val data = contentResolver.openInputStream(uri)?.use {
+            String(it.readBytes())
+        } ?: throw IllegalStateException()
+        blockList.readFromFile(data)
+    }
+
+    private fun saveFile(uri: Uri) {
+        contentResolver.openOutputStream(uri)?.use {
+            val bytes = blockList.writeToFile().toByteArray()
+            it.write(bytes)
+        } ?: throw IllegalStateException()
+    }
+
+    private fun showError(e: Exception) {
+        Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+    }
 }
 
